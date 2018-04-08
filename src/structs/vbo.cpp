@@ -4,9 +4,17 @@ Vbo::Vbo(GLenum type) : type(type) {
     glGenBuffers(1, &id); get_error("VBO creation");
 }
 
-Vbo::~Vbo() {
-    std::cout << "vbo destruct" << std::endl;
+Vbo::Vbo(Vbo &&from) : id(from.id), type(from.type) { from.id = 0; }
+
+Vbo& Vbo::operator=(Vbo &&from) {
+    id = from.id;
+    type = from.type;
+
+    from.id = 0;
+    return *this;
 }
+
+Vbo::~Vbo() { clean(); }
 
 void Vbo::clean() {
     if(id) {

@@ -7,8 +7,10 @@
 
 #include "utils.hpp"
 
-#include "structs/program.hpp"
+//#include "models/model.hpp"
 
+#include "structs/program.hpp"
+#include "structs/uniform.hpp"
 #include "structs/vao.hpp"
 
 #endif

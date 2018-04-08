@@ -5,7 +5,7 @@
 #ifndef ENDORA_VBO_HPP
 #define ENDORA_VBO_HPP
 
-#include "utils.hpp"
+#include <endora/utils.hpp>
 
 class Vbo {
 public:
@@ -13,6 +13,10 @@ public:
     ~Vbo();
 
     Vbo(Vbo const&) = delete;
+    Vbo& operator=(Vbo const &) = delete;
+
+    Vbo(Vbo && from);
+    Vbo& operator=(Vbo && from);
 
     void bind();
 
