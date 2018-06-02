@@ -5,7 +5,7 @@
 #ifndef ENDORA_TEXTURE_HPP
 #define ENDORA_TEXTURE_HPP
 
-#include <endora/structs/uniform.hpp>
+#include <structs/uniform.hpp>
 
 struct TextureFormat {
     GLenum       internal_format;

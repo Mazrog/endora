@@ -2,7 +2,7 @@
 // Created by mazrog on 22/03/18.
 //
 
-#include "structs/vao.hpp"
+#include <structs/vao.hpp>
 
 Vao::Vao() {
     glGenVertexArrays(1, &id); get_error("VAO creation");

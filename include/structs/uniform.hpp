@@ -5,8 +5,8 @@
 #ifndef ENDORA_UNIFORM_HPP
 #define ENDORA_UNIFORM_HPP
 
-#include <endora/utils.hpp>
-#include "program.hpp"
+#include <utils.hpp>
+#include <structs/program.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
