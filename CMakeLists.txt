@@ -10,8 +10,8 @@ find_package( OpenGL )
 find_package( GLEW )
 
 
-file(GLOB_RECURSE HPP_FILES include/*.hpp)
-file(GLOB_RECURSE CPP_FILES src/*.cpp)
+file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/*.hpp include/*/*.hpp include/*/*.tpp)
+file(GLOB CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp src/*/*.cpp)
 
 
 add_library(

@@ -13,4 +13,7 @@
 #include "structs/uniform.hpp"
 #include "structs/vao.hpp"
 
+#include "rendering/render_pass.hpp"
+#include "rendering/render_group.hpp"
+
 #endif
