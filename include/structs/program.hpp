@@ -5,7 +5,7 @@
 #ifndef ENDORA_SHADERPROGRAM_HPP
 #define ENDORA_SHADERPROGRAM_HPP
 
-#include <endora/utils.hpp>
+#include <utils.hpp>
 
 #include <vector>
 #include <string>

@@ -9,6 +9,7 @@ add_compile_options(-Wall -Wextra)
 find_package( OpenGL )
 find_package( GLEW )
 
+message(${CMAKE_CURRENT_SOURCE_DIR})
 
 file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/*.hpp include/*/*.hpp include/*/*.tpp)
 file(GLOB CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp src/*/*.cpp)
@@ -27,7 +28,7 @@ target_link_libraries( ${LIB_NAME}
 )
 
 target_include_directories( ${LIB_NAME}
-        PRIVATE include
+        SYSTEM BEFORE PRIVATE include
 )
 
 # Make install

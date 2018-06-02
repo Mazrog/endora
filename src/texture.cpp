@@ -4,8 +4,8 @@
 
 #include <IL/il.h>
 #include <GL/glew.h>
-#include <endora/texture.hpp>
-#include <endora/utils.hpp>
+#include <texture.hpp>
+#include <utils.hpp>
 
 
 TextureFormat::TextureFormat(const char * texturePath, GLenum internal_format, GLenum format) :

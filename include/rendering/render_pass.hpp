@@ -7,7 +7,7 @@
 
 #include <functional>
 
-#include "render_group.hpp"
+#include <rendering/render_group.hpp>
 
 using VoidFunc = std::function<void()>;
 
@@ -27,6 +27,6 @@ private:
     Group     * renderGroup;
 };
 
-#include "render_pass.tpp"
+#include <rendering/render_pass.tpp>
 
 #endif

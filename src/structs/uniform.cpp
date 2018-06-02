@@ -2,7 +2,7 @@
 // Created by mazrog on 22/03/18.
 //
 
-#include "structs/uniform.hpp"
+#include <structs/uniform.hpp>
 
 Uniform::Uniform(GLuint progid, std::string const& name) : progid(progid), location(), name(name) {
     loadUniform(progid, name.c_str());
