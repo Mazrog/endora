@@ -7,6 +7,6 @@
 
 namespace Loader {
 
-};
+}
 
 #endif

@@ -6,7 +6,7 @@
 
 Model::Model() {}
 
-Model::Model(const char *filePath) {}
+Model::Model(const char *) {}
 
 Model::~Model() {}
 
