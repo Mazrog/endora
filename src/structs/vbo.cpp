@@ -1,4 +1,4 @@
-#include <structs/vbo.hpp>
+#include <endora/structs/vbo.hpp>
 
 Vbo::Vbo(GLenum type) : type(type) {
     glGenBuffers(1, &id); get_error("VBO creation");

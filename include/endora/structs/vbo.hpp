@@ -5,7 +5,7 @@
 #ifndef ENDORA_VBO_HPP
 #define ENDORA_VBO_HPP
 
-#include <utils.hpp>
+#include <endora/utils.hpp>
 
 class Vbo {
 public:

@@ -21,6 +21,6 @@ private:
     std::vector<Object *>   objects;
 };
 
-#include <rendering/render_group.tpp>
+#include <endora/rendering/render_group.tpp>
 
 #endif

@@ -7,7 +7,7 @@
 
 #include <functional>
 
-#include <rendering/render_group.hpp>
+#include <endora/rendering/render_group.hpp>
 
 using VoidFunc = std::function<void()>;
 
@@ -27,6 +27,6 @@ private:
     Group     * renderGroup;
 };
 
-#include <rendering/render_pass.tpp>
+#include <endora/rendering/render_pass.tpp>
 
 #endif

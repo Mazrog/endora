@@ -5,7 +5,7 @@
 #ifndef ENDORA_VAO_HPP
 #define ENDORA_VAO_HPP
 
-#include <structs/vbo.hpp>
+#include <endora/structs/vbo.hpp>
 
 #include <vector>
 

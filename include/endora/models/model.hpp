@@ -5,7 +5,7 @@
 #ifndef ENDORA_MODEL_HPP
 #define ENDORA_MODEL_HPP
 
-#include <common.hpp>
+#include <endora/common.hpp>
 
 class Model {
 public:

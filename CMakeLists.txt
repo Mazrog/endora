@@ -9,7 +9,7 @@ add_compile_options(-Wall -Wextra)
 find_package( OpenGL )
 find_package( GLEW )
 
-file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/*.hpp include/*/*.hpp include/*/*.tpp)
+file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/endora/*.hpp include/endora/*/*.hpp include/endora/*/*.tpp)
 file(GLOB CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp src/*/*.cpp)
 
 

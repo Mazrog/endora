@@ -2,7 +2,7 @@
 // Created by mazrog on 22/03/18.
 //
 
-#include <structs/program.hpp>
+#include <endora/structs/program.hpp>
 
 int ShaderProgram::id_current_prog = 0;
 

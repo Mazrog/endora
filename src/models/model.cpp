@@ -2,7 +2,7 @@
 // Created by mazrog on 25/03/18.
 //
 
-#include <models/model.hpp>
+#include <endora/models/model.hpp>
 
 Model::Model() {}
 

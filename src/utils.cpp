@@ -2,7 +2,7 @@
 // Created by mazrog on 22/03/18.
 //
 
-#include <utils.hpp>
+#include <endora/utils.hpp>
 
 void get_error(const char * t) {
     GLenum err;
