@@ -40,6 +40,6 @@ void Uniform::loadUniform(GLuint progID, const char * var_name) {
         progid = progID;
         name = var_name;
         ShaderProgram::useProgram(progid);
-        location = glGetUniformLocation(progid, name.c_str()); get_error("get unif location");
+        location = glGetUniformLocation(progid, name.c_str()); get_error("current unif location");
     }
 }
