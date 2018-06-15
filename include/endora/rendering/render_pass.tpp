@@ -3,7 +3,7 @@
 //
 
 template < typename Object >
-RenderPass<Object>::RenderPass(RenderGroup<Object> * renderGroup, VoidFunc && prepareFunction)
+RenderPass<Object>::RenderPass(std::vector<Object> renderGroup, VoidFunc && prepareFunction)
         : prepareFunction(std::move(prepareFunction)), renderGroup(renderGroup) {}
 
 
@@ -14,5 +14,8 @@ RenderPass<Object>::~RenderPass() {}
 template < typename Object >
 void RenderPass<Object>::render() const {
     prepareFunction();
-    renderGroup->render();
+
+    for(auto const& object: renderGroup) {
+        object->draw();
+    }
 }

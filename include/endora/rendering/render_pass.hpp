@@ -7,25 +7,22 @@
 
 #include <functional>
 
-
-#include <endora/rendering/render_group.hpp>
-
 using VoidFunc = std::function<void()>;
 
 template < typename Object >
 class RenderPass {
 public:
-    using Group = RenderGroup<Object>;
+    using Group = std::vector<Object>;
 
 public:
-    RenderPass(Group * renderGroup, VoidFunc && prepareFunction);
+    RenderPass(Group renderGroup, VoidFunc && prepareFunction);
     ~RenderPass();
 
     void render() const;
 
 private:
     VoidFunc    prepareFunction;
-    Group     * renderGroup;
+    Group       renderGroup;
 };
 
 

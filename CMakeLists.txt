@@ -38,8 +38,8 @@ install(
 )
 
 install(
-        DIRECTORY include/
+        DIRECTORY include/endora/
         DESTINATION /usr/local/include/endora
 
-        PATTERN "include/*"
+        PATTERN "include/endora/*"
 )
