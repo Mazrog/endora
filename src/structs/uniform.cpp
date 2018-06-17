@@ -4,6 +4,8 @@
 
 #include <endora/structs/uniform.hpp>
 
+Uniform::Uniform() : progid(), location(), name() {}
+
 Uniform::Uniform(GLuint progid, std::string const& name) : progid(progid), location(), name(name) {
     loadUniform(progid, name.c_str());
 }
@@ -20,7 +22,7 @@ Uniform::Uniform(Uniform && unif) :
         name(unif.name) {
     unif.progid = 0;
     unif.location = 0;
-    unif.name = nullptr;
+    unif.name.clear();
 }
 
 Uniform& Uniform::operator=(Uniform && unif) {
@@ -30,7 +32,7 @@ Uniform& Uniform::operator=(Uniform && unif) {
 
     unif.progid = 0;
     unif.location = 0;
-    unif.name = nullptr;
+    unif.name.clear();
 
     return *this;
 }

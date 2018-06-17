@@ -15,14 +15,14 @@ public:
     using Group = std::vector<Object>;
 
 public:
-    RenderPass(Group renderGroup, VoidFunc && prepareFunction);
+    RenderPass(Group * renderGroup, VoidFunc && prepareFunction);
     ~RenderPass();
 
     void render() const;
 
 private:
     VoidFunc    prepareFunction;
-    Group       renderGroup;
+    Group     * renderGroup;
 };
 
 

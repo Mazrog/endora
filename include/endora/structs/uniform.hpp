@@ -45,7 +45,7 @@ inline void send_uniform<int *>(GLint const& loc, int * const& p, unsigned count
 /* ################################################################################## */
 
 struct Uniform {
-    Uniform() = default;
+    Uniform();
     Uniform(GLuint progid, std::string const& name);
 
     ~Uniform();
