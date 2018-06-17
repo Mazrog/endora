@@ -19,3 +19,8 @@ void RenderPass<Object>::render() const {
         object->draw();
     }
 }
+
+template < typename Object >
+std::vector<Object> const& RenderPass<Object>::get_render_group() const {
+    return *renderGroup;
+}

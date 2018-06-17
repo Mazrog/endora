@@ -20,6 +20,8 @@ public:
 
     void render() const;
 
+    Group const& get_render_group() const;
+
 private:
     VoidFunc    prepareFunction;
     Group     * renderGroup;
