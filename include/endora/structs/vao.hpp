@@ -11,6 +11,10 @@
 
 class Vao {
 public:
+    static int id_current_vao;
+    static void bind_vao(GLuint const& vao_id);
+
+public:
     Vao();
     ~Vao();
 
@@ -23,23 +27,24 @@ public:
     void bind();
     void clean();
 
+    void emplace_vbo(GLenum target = GL_ARRAY_BUFFER);
 
     template < class T >
-    void linkDataAttribute(GLuint index, int coordinateSize, size_t size, T * data) {
+    void linkDataAttribute(size_t size, T * data) {
         bind();
-        vbos.emplace_back();
         if( size > 0 ) {
             vbos.back().setBufferData(size, data);
         }
+    }
 
+    void formatDataAttribute(GLuint index, int coordinateSize, unsigned stride = 0, void * pointer = NULL) {
         glEnableVertexAttribArray(index);   get_error("VAO enable vertex index");
-        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, 0, (void *) 0);    get_error("VAO vertex pointer");
+        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    get_error("VAO vertex pointer");
     }
 
     template < class T >
     void linkElementDataAttribute(size_t size, T * data) {
         bind();
-        vbos.emplace_back(GL_ELEMENT_ARRAY_BUFFER);
         vbos.back().setBufferData(size, data);
     }
 
