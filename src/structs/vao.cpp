@@ -4,6 +4,15 @@
 
 #include <endora/structs/vao.hpp>
 
+unsigned Vao::id_current_vao = 0;
+
+void Vao::bind_vao(GLuint const &vao_id) {
+    if(static_cast<unsigned>(vao_id) != Vao::id_current_vao) {
+        glBindVertexArray(vao_id); get_error("Vao::bind_vao");
+        Vao::id_current_vao = vao_id;
+    }
+}
+
 Vao::Vao() {
     glGenVertexArrays(1, &id); get_error("VAO creation");
 }
@@ -22,16 +31,21 @@ Vao& Vao::operator=(Vao && vao) {
 }
 
 void Vao::bind() {
-    glBindVertexArray(id);  get_error("VAO binding");
+    Vao::bind_vao(id);
 }
 
 void Vao::clean() {
     if(id) {
         for (auto &vbo: vbos) { vbo.clean(); }
 
-        glBindVertexArray(0);
+        Vao::bind_vao(0);
         get_error("VAO unbinding");
         glDeleteVertexArrays(1, &id);
         get_error("VAO deletion");
     }
+}
+
+void Vao::emplace_vbo(GLenum target) {
+    bind();
+    vbos.emplace_back(target);
 }
