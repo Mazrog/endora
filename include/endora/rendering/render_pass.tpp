@@ -16,7 +16,9 @@ void RenderPass<Object>::render() const {
     prepareFunction();
 
     for(auto const& object: *renderGroup) {
-        object->draw();
+        if (object->visible()) {
+            object->draw();
+        }
     }
 }
 
