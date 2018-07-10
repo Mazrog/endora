@@ -51,7 +51,7 @@ void Fbo::add_depth_attachement(unsigned int width, unsigned int height) {
     _attachments.push_back(texture_id);
 
     bind();
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, _id, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture_id, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
 }
