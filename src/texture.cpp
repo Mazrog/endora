@@ -114,7 +114,7 @@ void Texture::bind(GLuint index) const {
     glBindTexture(type, ids.at(index)); get_error("Texture binding");
 }
 
-void Texture::send(int index, int slot) const {
+void Texture::send(unsigned index, int slot) const {
     bind(index);
     glActiveTexture(GL_TEXTURE0 + slot);    get_error("Texture active");
     texture.send(slot);
