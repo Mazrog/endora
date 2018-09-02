@@ -11,7 +11,7 @@
 
 class Vao {
 public:
-    static unsigned id_current_vao;
+    static GLuint id_current_vao;
     static void bind_vao(GLuint const& vao_id);
 
 public:
@@ -52,6 +52,8 @@ public:
     /* Getters */
     GLuint getId() const { return id; }
     std::vector<Vbo> & getVbos() { return vbos; }
+
+    Vbo & vbo() { return vbos.back(); }
 
     /* Setters */
     void setId(GLuint new_id) { id = new_id; }

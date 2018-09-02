@@ -1,5 +1,7 @@
 #include <endora/structs/vbo.hpp>
 
+GLuint Vbo::id_current_vbo = 0;
+
 Vbo::Vbo(GLenum type) : type(type) {
     glGenBuffers(1, &id); get_error("VBO creation");
 }
@@ -24,5 +26,14 @@ void Vbo::clean() {
 }
 
 void Vbo::bind() {
-    glBindBuffer(type, id);  get_error("VBO binding");
+    if (id != Vbo::id_current_vbo) {
+        glBindBuffer(type, id); get_error("VBO binding");
+
+        Vbo::id_current_vbo = id;
+    }
+}
+
+void Vbo::allocateStorage(size_t size, GLbitfield flags) {
+    bind();
+    glBufferStorage(type, size, NULL, flags); get_error("VBO storage allocation");
 }

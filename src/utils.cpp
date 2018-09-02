@@ -7,6 +7,7 @@
 void get_error(const char * t) {
     GLenum err;
     if((err = glGetError() ) != GLEW_OK){
+        std::cerr << "ENDORA ---------------" << std::endl;
         std::cerr << t << std::endl;
         std::cerr << "Erreur OpenGL (" << err << ") : " << glewGetErrorString(err) << " -- " << gluErrorString(err) << std::endl;
     }

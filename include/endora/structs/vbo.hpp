@@ -9,6 +9,9 @@
 
 class Vbo {
 public:
+    static GLuint id_current_vbo;
+
+public:
     Vbo(GLenum type = GL_ARRAY_BUFFER);
     ~Vbo();
 
@@ -26,6 +29,20 @@ public:
     void setBufferData(size_t size, const T * data, GLenum usage = GL_STATIC_DRAW) {
         bind();
         glBufferData(type, size, data, usage);      get_error("VBO Buffer Data");
+    }
+
+
+    void allocateStorage(size_t size, GLbitfield flags);
+
+    template < typename T >
+    T * mapBufferRange(size_t offset, size_t size, GLbitfield access) {
+        bind();
+        T * ret = (T *) glMapBufferRange(type, offset, size, access); get_error("Vbo Mapping buffer range");
+        return ret;
+    }
+
+    void unmapBuffer() {
+        glUnmapBuffer(type); get_error("Vbo UnMapping buffer");
     }
 
 
