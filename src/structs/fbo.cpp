@@ -3,7 +3,7 @@
 //
 
 #include <endora/utils.hpp>
-#include "endora/include/endora/structs/fbo.hpp"
+#include <endora/structs/fbo.hpp>
 
 void Fbo::default_fbo() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);   get_error("Binding default framebuffer");

@@ -4,10 +4,10 @@
 
 #include <endora/structs/vao.hpp>
 
-unsigned Vao::id_current_vao = 0;
+GLuint Vao::id_current_vao = 0;
 
 void Vao::bind_vao(GLuint const &vao_id) {
-    if(static_cast<unsigned>(vao_id) != Vao::id_current_vao) {
+    if(vao_id != Vao::id_current_vao) {
         glBindVertexArray(vao_id); get_error("Vao::bind_vao");
         Vao::id_current_vao = vao_id;
     }
