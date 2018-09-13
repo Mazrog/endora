@@ -10,7 +10,4 @@
 
 #include <vector>
 
-using vecf = std::vector<glm::vec3>;
-using vec2f = std::vector<glm::vec2>;
-
 #endif
