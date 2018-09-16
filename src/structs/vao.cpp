@@ -17,15 +17,20 @@ Vao::Vao() {
     glGenVertexArrays(1, &id); get_error("VAO creation");
 }
 
-Vao::~Vao() { clean(); }
+Vao::~Vao() {
+    clean();
+}
 
-Vao::Vao(Vao && vao) : id(vao.id), vbos(std::move(vao.vbos)) { vao.id = 0; }
+Vao::Vao(Vao && other) : id(other.id), vbos(std::move(other.vbos)) {
+    other.id = 0;
+    other.vbos.clear();
+}
 
-Vao& Vao::operator=(Vao && vao) {
-    id = vao.id;
-    vbos = std::move(vao.vbos);
-    vao.id = 0;
-    vao.vbos.clear();
+Vao& Vao::operator=(Vao && other) {
+    id = other.id;
+    vbos = std::move(other.vbos);
+    other.id = 0;
+    other.vbos.clear();
 
     return *this;
 }
@@ -38,10 +43,10 @@ void Vao::clean() {
     if(id) {
         for (auto &vbo: vbos) { vbo.clean(); }
 
-        Vao::bind_vao(0);
-        get_error("VAO unbinding");
-        glDeleteVertexArrays(1, &id);
-        get_error("VAO deletion");
+        Vao::bind_vao(0); get_error("VAO unbinding");
+        glDeleteVertexArrays(1, &id); get_error("VAO deletion");
+
+        id = 0;
     }
 }
 

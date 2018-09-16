@@ -22,6 +22,7 @@ void Vbo::clean() {
     if(id) {
         glDeleteBuffers(1, &id);
         get_error("VBO deletion");
+        id = 0;
     }
 }
 

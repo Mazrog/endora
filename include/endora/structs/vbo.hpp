@@ -32,10 +32,16 @@ public:
     }
 
 
+    /*  *
+     * size : size in bytes of the buffer data store
+     */
     void allocateStorage(size_t size, GLbitfield flags);
 
+    /*  *
+     *
+     */
     template < typename T >
-    T * mapBufferRange(size_t offset, size_t size, GLbitfield access) {
+    T * mapBufferRange(GLintptr offset, GLsizeiptr size, GLbitfield access) {
         bind();
         T * ret = (T *) glMapBufferRange(type, offset, size, access); get_error("Vbo Mapping buffer range");
         return ret;

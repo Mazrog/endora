@@ -21,8 +21,8 @@ public:
     Vao(Vao const&) = delete;
     Vao& operator=(Vao const &) = delete;
 
-    Vao(Vao && vao);
-    Vao& operator=(Vao && vao);
+    Vao(Vao && other);
+    Vao& operator=(Vao && other);
 
     void bind();
     void clean();
