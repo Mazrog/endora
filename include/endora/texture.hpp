@@ -5,15 +5,7 @@
 #ifndef ENDORA_TEXTURE_HPP
 #define ENDORA_TEXTURE_HPP
 
-#include <endora/structs/uniform.hpp>
-
-struct TextureFormat {
-    GLenum       internal_format;
-    GLenum       format;
-    const char * texturePath;
-
-    TextureFormat(const char * texturePath, GLenum internal_format = GL_RGB, GLenum format = GL_RGB);
-};
+#include <vector>
 
 class Texture {
 public:
@@ -26,27 +18,25 @@ public:
     Texture(Texture && text);
     Texture& operator=(Texture && text);
 
-    void genTexture();
 
-    int loadImageToVram(const char * image,
-                        GLenum internal_format = GL_RGB, GLenum format = GL_RGB);
+    unsigned int generate_texture();
 
-    int loadCubeMapToVram(const char * folderPath,
-                          GLenum internal_format = GL_RGB, GLenum format = GL_RGB);
+    unsigned int load_texture_to_vram(const char *image_path,
+                                      GLenum internal_format, GLenum format);
 
-    void loadUniform(GLuint progID, const char * var_name);
+    unsigned int load_cubemap_to_vram(const char *folder_path,
+                                      GLenum internal_format, GLenum format);
 
     void bind() const;
     void bind(GLuint index) const;
     void send(unsigned index, int slot = 0) const;
     void disable();
 
-    bool isActive() const { return !ids.empty(); }
+    bool is_active() const { return !_ids.empty(); }
 
 private:
-    Uniform                 texture;
-    GLenum                  type;
-    std::vector<GLuint>     ids;
+    GLenum                  _type;
+    std::vector<GLuint>     _ids;
 };
 
 #endif
