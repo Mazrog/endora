@@ -9,7 +9,6 @@
 #include <vector>
 
 class Fbo {
-    using Attachments = std::vector<GLuint>;
 
 public:
     static void default_fbo();
@@ -22,7 +21,7 @@ public:
     void bind() const;
 
     void add_depth_attachement(unsigned width = 2048, unsigned height = 2048);
-    void bind_texture_slot(unsigned slot = 0) const;
+    void bind_texture_slot(unsigned target, unsigned slot = 0) const;
 
     /* ------------------- */
     Fbo(Fbo const&) = delete;
@@ -32,8 +31,10 @@ public:
     Fbo & operator=(Fbo && other);
 
 private:
-    GLuint          _id;
-    Attachments     _attachments;
+    GLuint                  _id;
+
+    /* Vector containing all texture ids attached to the fbo */
+    std::vector<GLuint>     _attachments;
 };
 
 

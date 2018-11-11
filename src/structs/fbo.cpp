@@ -22,9 +22,8 @@ void Fbo::clean() {
         glDeleteFramebuffers(1, &_id); get_error("Deleting FrameBuffers");
         _id = 0;
 
-        for (unsigned const& id : _attachments) {
-            glDeleteTextures(1, &id);   get_error("Deleting textures attachments");
-        }
+        glDeleteTextures(_attachments.size(), _attachments.data());
+        get_error("Deleting textures attachments");
     }
 }
 
@@ -56,13 +55,14 @@ void Fbo::add_depth_attachement(unsigned int width, unsigned int height) {
     glReadBuffer(GL_NONE);
 }
 
-void Fbo::bind_texture_slot(unsigned int slot) const {
+void Fbo::bind_texture_slot(unsigned target, unsigned int slot) const {
+    glActiveTexture(GL_TEXTURE0 + target);   get_error("Activate texture targeted");
     glBindTexture(GL_TEXTURE_2D, _attachments.at(slot));    get_error("Binding attachment texture");
-    glActiveTexture(GL_TEXTURE0);   get_error("Activate texture 0");
 }
 
-Fbo::Fbo(Fbo &&other) : _id(other._id) {
+Fbo::Fbo(Fbo &&other) : _id(other._id), _attachments(std::move(other._attachments)) {
     other._id = 0;
+    other._attachments.clear();
 }
 
 Fbo& Fbo::operator=(Fbo &&other) {

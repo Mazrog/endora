@@ -7,15 +7,10 @@
 #include <endora/texture.hpp>
 #include <endora/utils.hpp>
 
-
-TextureFormat::TextureFormat(const char * texturePath, GLenum internal_format, GLenum format) :
-        internal_format(internal_format), format(format), texturePath(texturePath) {}
-
-
-Texture::Texture(GLenum type) : type(type) {}
+Texture::Texture(GLenum type) : _type(type) {}
 
 Texture::~Texture() {
-    for(auto const& id : ids) {
+    for(auto const& id : _ids) {
         if (id) {
             glDeleteTextures(1, &id);
             get_error("Texture deletion");
@@ -24,36 +19,38 @@ Texture::~Texture() {
 }
 
 Texture& Texture::operator=(Texture && text) {
-    ids = std::move(text.ids);
-    type = text.type;
-    texture = std::move(text.texture);
+    _ids = std::move(text._ids);
+    _type = text._type;
 
-    text.ids.clear();
+    text._ids.clear();
     return *this;
 }
 
 Texture::Texture(Texture &&text)
-        : texture(std::move(text.texture)), type(text.type),
-          ids(std::move(text.ids)) {
-    text.ids.clear();
+        : _type(text._type),
+          _ids(std::move(text._ids)) {
+    text._ids.clear();
 }
 
-void Texture::genTexture() {
-    ids.push_back(0);
-    glGenTextures(1, &ids.back());      get_error("Texture generation");
+unsigned int Texture::generate_texture() {
+    GLuint texture;
+    glGenTextures(1, &texture);      get_error("Texture generation");
+    _ids.push_back(texture);
+
+    return _ids.size()-1;
 }
 
-int Texture::loadImageToVram(const char *image, GLenum internal_format, GLenum format) {
+unsigned int Texture::load_texture_to_vram(const char *image_path, GLenum internal_format, GLenum format) {
     ilInit();
     ILuint src = ilGenImage();
     ilBindImage(src);
-    ilLoadImage(image);
+    ilLoadImage(image_path);
     ILubyte * surf = ilGetData();
 
-    genTexture();
+    generate_texture();
     bind();
 
-    glTexImage2D(type, 0, internal_format,
+    glTexImage2D(_type, 0, internal_format,
                  ilGetInteger(IL_IMAGE_WIDTH),
                  ilGetInteger(IL_IMAGE_HEIGHT), 0,
                  format, GL_UNSIGNED_BYTE, surf);
@@ -61,14 +58,14 @@ int Texture::loadImageToVram(const char *image, GLenum internal_format, GLenum f
 
     ilDeleteImage(src);
 
-    glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
-    glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
+    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
+    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
 
-    return ids.size()-1;
+    return _ids.size()-1;
 }
 
-int Texture::loadCubeMapToVram(const char *folderPath, GLenum internal_format, GLenum format) {
-    genTexture();
+unsigned int Texture::load_cubemap_to_vram(const char *folder_path, GLenum internal_format, GLenum format) {
+    generate_texture();
     bind();
 
     const char * file_names[6] = { "right.png", "left.png",
@@ -82,7 +79,7 @@ int Texture::loadCubeMapToVram(const char *folderPath, GLenum internal_format, G
     char image_name[500];
 
     for(unsigned i = 0; i < 6; ++i) {
-        snprintf(image_name, sizeof(image_name), "%s/%s", folderPath, file_names[i]);
+        snprintf(image_name, sizeof(image_name), "%s/%s", folder_path, file_names[i]);
 
         ilLoadImage(image_name);
         ILubyte *surf = ilGetData();
@@ -96,35 +93,31 @@ int Texture::loadCubeMapToVram(const char *folderPath, GLenum internal_format, G
 
     ilDeleteImage(src);
 
-    glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
-    glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
+    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
+    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
 
-    glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(type, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(_type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(_type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(_type, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    return ids.size()-1;
+    return _ids.size()-1;
 }
 
 void Texture::bind() const {
-    bind(ids.size()-1);
+    bind(_ids.size()-1);
 }
 
 void Texture::bind(GLuint index) const {
-    glBindTexture(type, ids.at(index)); get_error("Texture binding");
+    glBindTexture(_type, _ids.at(index)); get_error("Texture binding");
 }
 
 void Texture::send(unsigned index, int slot) const {
-    bind(index);
     glActiveTexture(GL_TEXTURE0 + slot);    get_error("Texture active");
-    texture.send(slot);
+    bind(index);
 }
 
 void Texture::disable() {
-    glBindTexture(type, 0);    get_error("disable texture");
+    glBindTexture(_type, 0);    get_error("disable texture");
 }
 
-void Texture::loadUniform(GLuint progID, const char *var_name) {
-    texture.loadUniform(progID, var_name);
-}
 
