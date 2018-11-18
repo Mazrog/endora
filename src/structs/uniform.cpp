@@ -4,7 +4,7 @@
 
 #include <endora/structs/uniform.hpp>
 
-Uniform::Uniform() : progid(), location(), name() {}
+Uniform::Uniform() : progid(0), location(0), name("") {}
 
 Uniform::Uniform(GLuint progid, std::string const& name) : progid(progid), location(), name(name) {
     loadUniform(progid, name.c_str());

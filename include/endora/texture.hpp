@@ -6,6 +6,7 @@
 #define ENDORA_TEXTURE_HPP
 
 #include <vector>
+#include <GL/glew.h>
 
 class Texture {
 public:
