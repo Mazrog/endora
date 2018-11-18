@@ -2,7 +2,6 @@
 // Created by mazrog on 17/04/18.
 //
 
-#include <IL/il.h>
 #include <GL/glew.h>
 #include <endora/texture.hpp>
 #include <endora/utils.hpp>
@@ -40,65 +39,23 @@ unsigned int Texture::generate_texture() {
     return _ids.size()-1;
 }
 
-unsigned int Texture::load_texture_to_vram(const char *image_path, GLenum internal_format, GLenum format) {
-    ilInit();
-    ILuint src = ilGenImage();
-    ilBindImage(src);
-    ilLoadImage(image_path);
-    ILubyte * surf = ilGetData();
-
+unsigned int Texture::load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum format) {
     generate_texture();
     bind();
 
-    glTexImage2D(_type, 0, internal_format,
-                 ilGetInteger(IL_IMAGE_WIDTH),
-                 ilGetInteger(IL_IMAGE_HEIGHT), 0,
-                 format, GL_UNSIGNED_BYTE, surf);
+    glTexImage2D(_type, 0, format,
+                 width,
+                 height, 0,
+                 format, GL_UNSIGNED_BYTE, pixels);
     get_error("tex image 2D");
 
-    ilDeleteImage(src);
-
     glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
     glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
 
-    return _ids.size()-1;
-}
-
-unsigned int Texture::load_cubemap_to_vram(const char *folder_path, GLenum internal_format, GLenum format) {
-    generate_texture();
-    bind();
-
-    const char * file_names[6] = { "right.png", "left.png",
-                                   "top.png", "bottom.png",
-                                   "back.png", "front.png" };
-
-    ilInit();
-    ILuint src = ilGenImage();
-    ilBindImage(src);
-
-    char image_name[500];
-
-    for(unsigned i = 0; i < 6; ++i) {
-        snprintf(image_name, sizeof(image_name), "%s/%s", folder_path, file_names[i]);
-
-        ilLoadImage(image_name);
-        ILubyte *surf = ilGetData();
-
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internal_format,
-                     ilGetInteger(IL_IMAGE_WIDTH),
-                     ilGetInteger(IL_IMAGE_HEIGHT), 0,
-                     format, GL_UNSIGNED_BYTE, surf);
-        get_error("tex image 2D");
-    }
-
-    ilDeleteImage(src);
-
-    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
-    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
-
-    glTexParameteri(_type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(_type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(_type, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    float border_color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, border_color);
 
     return _ids.size()-1;
 }

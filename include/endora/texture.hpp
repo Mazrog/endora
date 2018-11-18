@@ -18,14 +18,9 @@ public:
     Texture(Texture && text);
     Texture& operator=(Texture && text);
 
+    unsigned int load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum format);
 
     unsigned int generate_texture();
-
-    unsigned int load_texture_to_vram(const char *image_path,
-                                      GLenum internal_format, GLenum format);
-
-    unsigned int load_cubemap_to_vram(const char *folder_path,
-                                      GLenum internal_format, GLenum format);
 
     void bind() const;
     void bind(GLuint index) const;

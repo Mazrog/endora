@@ -24,7 +24,6 @@ add_library(
 target_link_libraries( ${LIB_NAME}
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
-        IL
 )
 
 target_include_directories( ${LIB_NAME}
