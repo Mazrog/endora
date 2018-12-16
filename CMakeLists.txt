@@ -1,38 +1,37 @@
 cmake_minimum_required(VERSION 3.5)
-set(LIB_NAME endora)
 
-project(${LIB_NAME})
+project( endora )
 
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -Wextra)
 
 find_package( OpenGL )
 find_package( GLEW )
-
 
 file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/endora/*.hpp include/endora/*/*.hpp include/endora/*/*.tpp)
 file(GLOB CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp src/*/*.cpp)
 
 
 add_library(
-        ${LIB_NAME}
+        ${PROJECT_NAME}
         SHARED
         ${CPP_FILES}
         ${HPP_FILES}
 )
 
-target_link_libraries( ${LIB_NAME}
+target_link_libraries( ${PROJECT_NAME}
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
 )
 
-target_include_directories( ${LIB_NAME}
+target_include_directories( ${PROJECT_NAME}
         SYSTEM BEFORE PRIVATE include
 )
 
+target_compile_options( ${PROJECT_NAME} -Wall -Wextra -pedantic)
+
 # Make install
 install(
-        TARGETS ${LIB_NAME}
+        TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION /usr/local/lib/
 )
 
