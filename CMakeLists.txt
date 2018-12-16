@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
+set ( LIBRARY_NAME endora )
 
-project( endora )
+project( ${LIBRARY_NAME} )
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -27,7 +28,13 @@ target_include_directories( ${PROJECT_NAME}
         SYSTEM BEFORE PRIVATE include
 )
 
-target_compile_options( ${PROJECT_NAME} -Wall -Wextra -pedantic)
+target_compile_options ( ${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic )
+
+
+get_directory_property(has_parent PARENT_DIRECTORY)
+if (has_parent)
+    set ( LIBRARY_PATH include/${LIBRARY_NAME} PARENT_SCOPE )
+endif()
 
 # Make install
 install(
