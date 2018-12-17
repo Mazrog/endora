@@ -33,7 +33,7 @@ target_compile_options ( ${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic )
 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if (has_parent)
-    set ( LIBRARY_PATH include/${LIBRARY_NAME} PARENT_SCOPE )
+    set ( PUBLISHED_FILES include/${LIBRARY_NAME} PARENT_SCOPE )
 endif()
 
 # Make install
