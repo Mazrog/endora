@@ -33,6 +33,11 @@ inline void send_uniform<glm::mat4>(GLint const& loc, glm::mat4 const& m, unsign
 }
 
 template <>
+inline void send_uniform<glm::vec2>(GLint const& loc, glm::vec2 const& v, unsigned) {
+    glUniform2f(loc, v.x, v.y); get_error("send vec3");
+}
+
+template <>
 inline void send_uniform<glm::vec3>(GLint const& loc, glm::vec3 const& v, unsigned) {
     glUniform3f(loc, v.x, v.y, v.z); get_error("send vec3");
 }
