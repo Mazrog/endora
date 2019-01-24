@@ -68,7 +68,7 @@ struct Uniform {
     template < typename T >
     void send(T const& t, unsigned count = 0) const {
         /* Use the correct program */
-        ShaderProgram::useProgram(progid);
+        ShaderProgram::use(progid);
         send_uniform(location, t, count);
     }
 

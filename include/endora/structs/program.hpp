@@ -10,48 +10,69 @@
 #include <vector>
 #include <string>
 
+struct Shader {
+    Shader(const char * file, GLenum type);
+    ~Shader();
+
+    void compile();
+
+	GLenum type;
+	const char * file;
+    GLuint id;
+};
+
+
 class ShaderProgram {
 public:
-    static int id_current_prog;
-    static void useProgram(GLuint const& progId);
+    static unsigned id_current_prog;
+    static void use(GLuint prog_id);
 
 public:
     ShaderProgram();
-    ShaderProgram(const char *vertexPath, const char *fragmentPath);
+
+    template < typename ... Shaders >
+    explicit ShaderProgram(Shaders && ... shaders) {
+        static_assert( (std::is_same_v<Shader, Shaders> && ...) , "All arguments must be of \"Shader\" type.");
+
+        /* Program creation */
+        _prog_id = glCreateProgram(); get_error("create prog");
+
+        (attach_shader(shaders), ...);
+        link();
+        (detach_shader(shaders), ...);
+    }
 
     ~ShaderProgram();
 
     /* ###################################################################################### */
     /* Deleting the copy operators */
     ShaderProgram(ShaderProgram const&) = delete;
-
     ShaderProgram& operator=(ShaderProgram const&) = delete;
 
     /* Move constructors + move operators */
-    ShaderProgram(ShaderProgram && program) : _progId(std::move(program.getProgId())) { program.setProgId(0); }
+    ShaderProgram(ShaderProgram && program) : _prog_id(program._prog_id) { program._prog_id = 0; }
     ShaderProgram& operator=(ShaderProgram && program) {
-        _progId = std::move(program.getProgId());
-        program.setProgId(0);
+        _prog_id = program._prog_id;
+        program._prog_id = 0;
         return *this;
     }
 
     /* ###################################################################################### */
 
-    void makeShader(std::string const& file, GLenum type);
-    void linkProgram();
+    void attach_shader(Shader & shader);
+    void detach_shader(Shader & shader);
 
-    void useProgram();
+    void link();
+
+    void use();
 
     void destroy();
 
     /* Getters and Setters */
     GLuint getProgId() const;
-    void setProgId(GLuint val) { _progId = val; }
 
 private:
-    GLuint _progId;
-
-    std::vector<GLuint>     shaders;
+    GLuint _prog_id;
 };
 
 #endif
