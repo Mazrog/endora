@@ -30,37 +30,27 @@ public:
     void emplace_vbo(GLenum target = GL_ARRAY_BUFFER);
 
     template < class T >
-    void linkDataAttribute(size_t size, T * data) {
+    void set_data(size_t size, T *data) {
         bind();
         if( size > 0 ) {
-            vbos.back().setBufferData(size, data);
+            _vbos.back().setBufferData(size, data);
         }
     }
 
-    void formatDataAttribute(GLuint index, int coordinateSize, unsigned stride = 0, void * pointer = NULL) {
-        glEnableVertexAttribArray(index);   get_error("VAO enable vertex index");
-        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    get_error("VAO vertex pointer");
+    void format_index_data(GLuint index, int coordinateSize, unsigned stride = 0, void *pointer = NULL) {
+        glEnableVertexAttribArray(index);   endora_error("VAO enable vertex index");
+        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    endora_error("VAO vertex pointer");
     }
-
-    template < class T >
-    void linkElementDataAttribute(size_t size, T * data) {
-        bind();
-        vbos.back().setBufferData(size, data);
-    }
-
 
     /* Getters */
-    GLuint getId() const { return id; }
-    std::vector<Vbo> & getVbos() { return vbos; }
+    GLuint getId() const { return _id; }
 
-    Vbo & vbo() { return vbos.back(); }
-
-    /* Setters */
-    void setId(GLuint new_id) { id = new_id; }
+    std::vector<Vbo> & vbos() { return _vbos; }
+    Vbo & vbo() { return _vbos.back(); }
 
 private:
-    GLuint                  id;
-    std::vector<Vbo>      vbos;
+    GLuint                  _id;
+    std::vector<Vbo>      _vbos;
 };
 
 #endif //ENDORA_VAO_HPP

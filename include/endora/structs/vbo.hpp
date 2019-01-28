@@ -28,7 +28,7 @@ public:
     template < class T >
     void setBufferData(size_t size, const T * data, GLenum usage = GL_STATIC_DRAW) {
         bind();
-        glBufferData(type, size, data, usage);      get_error("VBO Buffer Data");
+        glBufferData(type, size, data, usage);      endora_error("VBO Buffer Data");
     }
 
 
@@ -43,12 +43,12 @@ public:
     template < typename T >
     T * mapBufferRange(GLintptr offset, GLsizeiptr size, GLbitfield access) {
         bind();
-        T * ret = (T *) glMapBufferRange(type, offset, size, access); get_error("Vbo Mapping buffer range");
+        T * ret = (T *) glMapBufferRange(type, offset, size, access); endora_error("Vbo Mapping buffer range");
         return ret;
     }
 
     void unmapBuffer() {
-        glUnmapBuffer(type); get_error("Vbo UnMapping buffer");
+        glUnmapBuffer(type); endora_error("Vbo UnMapping buffer");
     }
 
 

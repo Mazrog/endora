@@ -6,11 +6,11 @@
 #include <endora/structs/fbo.hpp>
 
 void Fbo::default_fbo() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);   get_error("Binding default framebuffer");
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);   endora_error("Binding default framebuffer");
 }
 
 Fbo::Fbo() {
-    glGenFramebuffers(1, &_id); get_error("Creating FrameBuffer");
+    glGenFramebuffers(1, &_id); endora_error("Creating FrameBuffer");
 }
 
 Fbo::~Fbo() {
@@ -19,16 +19,16 @@ Fbo::~Fbo() {
 
 void Fbo::clean() {
     if (_id) {
-        glDeleteFramebuffers(1, &_id); get_error("Deleting FrameBuffers");
+        glDeleteFramebuffers(1, &_id); endora_error("Deleting FrameBuffers");
         _id = 0;
 
         glDeleteTextures(_attachments.size(), _attachments.data());
-        get_error("Deleting textures attachments");
+        endora_error("Deleting textures attachments");
     }
 }
 
 void Fbo::bind() const {
-    glBindFramebuffer(GL_FRAMEBUFFER, _id); get_error("Binding FrameBuffers");
+    glBindFramebuffer(GL_FRAMEBUFFER, _id); endora_error("Binding FrameBuffers");
 }
 
 void Fbo::add_depth_attachement(unsigned int width, unsigned int height) {
@@ -56,8 +56,8 @@ void Fbo::add_depth_attachement(unsigned int width, unsigned int height) {
 }
 
 void Fbo::bind_texture_slot(unsigned target, unsigned int slot) const {
-    glActiveTexture(GL_TEXTURE0 + target);   get_error("Activate texture targeted");
-    glBindTexture(GL_TEXTURE_2D, _attachments.at(slot));    get_error("Binding attachment texture");
+    glActiveTexture(GL_TEXTURE0 + target);   endora_error("Activate texture targeted");
+    glBindTexture(GL_TEXTURE_2D, _attachments.at(slot));    endora_error("Binding attachment texture");
 }
 
 Fbo::Fbo(Fbo &&other) : _id(other._id), _attachments(std::move(other._attachments)) {

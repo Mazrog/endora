@@ -8,49 +8,49 @@ GLuint Vao::id_current_vao = 0;
 
 void Vao::bind_vao(GLuint const &vao_id) {
     if(vao_id != Vao::id_current_vao) {
-        glBindVertexArray(vao_id); get_error("Vao::bind_vao");
+        glBindVertexArray(vao_id); endora_error("Vao::bind_vao");
         Vao::id_current_vao = vao_id;
     }
 }
 
 Vao::Vao() {
-    glGenVertexArrays(1, &id); get_error("VAO creation");
+    glGenVertexArrays(1, &_id); endora_error("VAO creation");
 }
 
 Vao::~Vao() {
     clean();
 }
 
-Vao::Vao(Vao && other) : id(other.id), vbos(std::move(other.vbos)) {
-    other.id = 0;
-    other.vbos.clear();
+Vao::Vao(Vao && other) : _id(other._id), _vbos(std::move(other._vbos)) {
+    other._id = 0;
+    other._vbos.clear();
 }
 
 Vao& Vao::operator=(Vao && other) {
-    id = other.id;
-    vbos = std::move(other.vbos);
-    other.id = 0;
-    other.vbos.clear();
+    _id = other._id;
+    _vbos = std::move(other._vbos);
+    other._id = 0;
+    other._vbos.clear();
 
     return *this;
 }
 
 void Vao::bind() {
-    Vao::bind_vao(id);
+    Vao::bind_vao(_id);
 }
 
 void Vao::clean() {
-    if(id) {
-        for (auto &vbo: vbos) { vbo.clean(); }
+    if(_id) {
+        for (auto &vbo: _vbos) { vbo.clean(); }
 
-        Vao::bind_vao(0); get_error("VAO unbinding");
-        glDeleteVertexArrays(1, &id); get_error("VAO deletion");
+        Vao::bind_vao(0); endora_error("VAO unbinding");
+        glDeleteVertexArrays(1, &_id); endora_error("VAO deletion");
 
-        id = 0;
+        _id = 0;
     }
 }
 
 void Vao::emplace_vbo(GLenum target) {
     bind();
-    vbos.emplace_back(target);
+    _vbos.emplace_back(target);
 }

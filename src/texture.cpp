@@ -12,7 +12,7 @@ Texture::~Texture() {
     for(auto const& id : _ids) {
         if (id) {
             glDeleteTextures(1, &id);
-            get_error("Texture deletion");
+            endora_error("Texture deletion");
         }
     }
 }
@@ -33,7 +33,7 @@ Texture::Texture(Texture &&text)
 
 unsigned int Texture::generate_texture() {
     GLuint texture;
-    glGenTextures(1, &texture);      get_error("Texture generation");
+    glGenTextures(1, &texture);      endora_error("Texture generation");
     _ids.push_back(texture);
 
     return _ids.size()-1;
@@ -47,10 +47,10 @@ unsigned int Texture::load_texture_to_vram(unsigned width, unsigned height, void
                  width,
                  height, 0,
                  format, GL_UNSIGNED_BYTE, pixels);
-    get_error("tex image 2D");
+    endora_error("tex image 2D");
 
-    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); get_error("mipmap linear");
-    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); get_error("texture param MAG");
+    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR); endora_error("mipmap linear");
+    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR); endora_error("texture param MAG");
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
@@ -65,16 +65,16 @@ void Texture::bind() const {
 }
 
 void Texture::bind(GLuint index) const {
-    glBindTexture(_type, _ids.at(index)); get_error("Texture binding");
+    glBindTexture(_type, _ids.at(index)); endora_error("Texture binding");
 }
 
 void Texture::send(unsigned index, int slot) const {
-    glActiveTexture(GL_TEXTURE0 + slot);    get_error("Texture active");
+    glActiveTexture(GL_TEXTURE0 + slot);    endora_error("Texture active");
     bind(index);
 }
 
 void Texture::disable() {
-    glBindTexture(_type, 0);    get_error("disable texture");
+    glBindTexture(_type, 0);    endora_error("disable texture");
 }
 
 

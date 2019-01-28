@@ -7,7 +7,7 @@
 Uniform::Uniform() : progid(0), location(0), name("") {}
 
 Uniform::Uniform(GLuint progid, std::string const& name) : progid(progid), location(), name(name) {
-    loadUniform(progid, name.c_str());
+    load_uniform(progid, name.c_str());
 }
 
 Uniform::~Uniform() {
@@ -37,11 +37,11 @@ Uniform& Uniform::operator=(Uniform && unif) {
     return *this;
 }
 
-void Uniform::loadUniform(GLuint progID, const char * var_name) {
+void Uniform::load_uniform(GLuint progID, const char *var_name) {
     if(progID) {
         progid = progID;
         name = var_name;
         ShaderProgram::use(progid);
-        location = glGetUniformLocation(progid, name.c_str()); get_error("current unif location");
+        location = glGetUniformLocation(progid, name.c_str()); endora_error("current unif location");
     }
 }

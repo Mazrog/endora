@@ -35,7 +35,7 @@ public:
         static_assert( (std::is_same_v<Shader, Shaders> && ...) , "All arguments must be of \"Shader\" type.");
 
         /* Program creation */
-        _prog_id = glCreateProgram(); get_error("create prog");
+        _prog_id = glCreateProgram(); endora_error("create prog");
 
         (attach_shader(shaders), ...);
         link();
