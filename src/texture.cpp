@@ -25,11 +25,11 @@ unsigned int Texture::generate_texture() {
     return _ids.size()-1;
 }
 
-unsigned int Texture::load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum format) {
+unsigned int Texture::load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum internal_format, GLenum format) {
     generate_texture();
     bind();
 
-    glTexImage2D(_type, 0, format,
+    glTexImage2D(_type, 0, internal_format,
                  width,
                  height, 0,
                  format, GL_UNSIGNED_BYTE, pixels);

@@ -16,6 +16,7 @@ public:
 
 public:
     Vao();
+    Vao(size_t nvbos);
     ~Vao();
 
     Vao(Vao const&) = delete;
@@ -28,19 +29,6 @@ public:
     void clean();
 
     Vbo & emplace_vbo(GLenum target = GL_ARRAY_BUFFER);
-
-    template < class T >
-    void set_data(size_t size, T *data) {
-        if( size > 0 ) {
-            _vbos.back().setBufferData(size, data);
-        }
-    }
-
-    void format_index_data(GLuint index, int coordinateSize, unsigned stride = 0, void *pointer = NULL) {
-        glEnableVertexAttribArray(index);   endora_error("VAO enable vertex index");
-        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    endora_error("VAO vertex pointer");
-    }
-
 
     operator GLuint() const { return _id; }
     Vbo & operator[] (unsigned index) { return _vbos[index]; }

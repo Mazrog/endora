@@ -19,7 +19,7 @@ public:
     Texture(Texture && text) = default;
     Texture& operator=(Texture && text) = default;
 
-    unsigned int load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum format);
+    unsigned int load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum internal_format, GLenum format);
 
     unsigned int generate_texture();
 

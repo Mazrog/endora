@@ -17,6 +17,10 @@ Vao::Vao() {
     glGenVertexArrays(1, &_id); endora_error("VAO creation");
 }
 
+Vao::Vao(size_t nvbos) : Vao() {
+    _vbos.reserve(nvbos);
+}
+
 Vao::~Vao() {
     clean();
 }

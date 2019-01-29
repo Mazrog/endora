@@ -2,6 +2,7 @@
 #define ENDORA_UTILS_HPP
 
 #include <iostream>
+#include <GL/glew.h>
 
 #define endora_error(message, ...) \
     endora::get_error(__FILE__, __LINE__, message, ##__VA_ARGS__)
@@ -15,7 +16,7 @@ namespace endora {
             std::cerr << "ENDORA OPENGL ERROR -------- " << message << "\nCalled from " << file << " at line " << line << '\n';
             std::cerr << "Error (" << err << ") : " << glewGetErrorString(err) << " -- " << gluErrorString(err) << '\n';
             if constexpr (sizeof...(args)) {
-                ((std::cerr << args << " "), ...) << std::endl;
+                ((std::cerr << args << " "), ...) << '\n' << std::endl;
             }
         }
     }

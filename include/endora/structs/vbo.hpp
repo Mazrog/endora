@@ -26,26 +26,30 @@ public:
     void clean();
 
     template < class T >
-    void setBufferData(size_t size, const T * data, GLenum usage = GL_STATIC_DRAW) {
+    void buffer_data(size_t size, const T * data, GLenum usage = GL_STATIC_DRAW) {
         glBufferData(_type, size, data, usage);      endora_error("VBO Buffer Data");
     }
 
+    void format_index_data(GLuint index, int coordinateSize, unsigned stride = 0, void *pointer = NULL) {
+        glEnableVertexAttribArray(index);   endora_error("VAO enable vertex index");
+        glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    endora_error("VAO vertex pointer");
+    }
 
     /*  *
      * size : size in bytes of the buffer data store
      */
-    void allocateStorage(size_t size, GLbitfield flags);
+    void allocate_storage(size_t size, GLbitfield flags);
 
     /*  *
      * Returns a pointer to a mapped memory for the buffer data
      */
     template < typename T >
-    T * mapBufferRange(GLintptr offset, GLsizeiptr size, GLbitfield access) {
+    T * map_buffer_range(GLintptr offset, GLsizeiptr size, GLbitfield access) {
         T * ret = (T *) glMapBufferRange(_type, offset, size, access); endora_error("Vbo Mapping buffer range");
         return ret;
     }
 
-    void unmapBuffer() {
+    void unmap_buffer() {
         glUnmapBuffer(_type); endora_error("Vbo UnMapping buffer");
     }
 

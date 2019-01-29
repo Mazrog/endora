@@ -34,6 +34,6 @@ void Vbo::bind() {
     }
 }
 
-void Vbo::allocateStorage(size_t size, GLbitfield flags) {
+void Vbo::allocate_storage(size_t size, GLbitfield flags) {
     glBufferStorage(_type, size, NULL, flags); endora_error("VBO storage allocation");
 }
