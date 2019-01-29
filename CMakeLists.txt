@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
-set ( LIBRARY_NAME endora )
+cmake_minimum_required(VERSION 3.8)
 
-project( ${LIBRARY_NAME} )
+project( endora )
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -33,7 +32,7 @@ target_compile_options ( ${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic )
 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if (has_parent)
-    set ( PUBLISHED_FILES include/${LIBRARY_NAME} PARENT_SCOPE )
+    set ( PUBLISHED_FILES include/${PROJECT_NAME} PARENT_SCOPE )
 endif()
 
 # Make install

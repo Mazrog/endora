@@ -50,7 +50,6 @@ void Vao::clean() {
     }
 }
 
-void Vao::emplace_vbo(GLenum target) {
-    bind();
-    _vbos.emplace_back(target);
+Vbo & Vao::emplace_vbo(GLenum target) {
+    return _vbos.emplace_back(target);
 }

@@ -7,9 +7,6 @@
 
 #include <endora/utils.hpp>
 
-#include <vector>
-#include <string>
-
 struct Shader {
     Shader(const char * file, GLenum type);
     ~Shader();
@@ -69,7 +66,7 @@ public:
     void destroy();
 
     /* Getters and Setters */
-    GLuint getProgId() const;
+    GLuint id() const;
 
 private:
     GLuint _prog_id;

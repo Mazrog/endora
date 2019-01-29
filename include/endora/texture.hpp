@@ -16,8 +16,8 @@ public:
     Texture& operator=(Texture const&) = delete;
     Texture(Texture const&) = delete;
 
-    Texture(Texture && text);
-    Texture& operator=(Texture && text);
+    Texture(Texture && text) = default;
+    Texture& operator=(Texture && text) = default;
 
     unsigned int load_texture_to_vram(unsigned width, unsigned height, void * pixels, GLenum format);
 
@@ -28,7 +28,7 @@ public:
     void send(unsigned index, int slot = 0) const;
     void disable();
 
-    bool is_active() const { return !_ids.empty(); }
+    operator bool() const { return !_ids.empty(); }
 
 private:
     GLenum                  _type;

@@ -2,7 +2,6 @@
 #define ENDORA_UTILS_HPP
 
 #include <iostream>
-#include <endora/common.hpp>
 
 #define endora_error(message, ...) \
     endora::get_error(__FILE__, __LINE__, message, ##__VA_ARGS__)

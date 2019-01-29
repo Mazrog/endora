@@ -17,20 +17,6 @@ Texture::~Texture() {
     }
 }
 
-Texture& Texture::operator=(Texture && text) {
-    _ids = std::move(text._ids);
-    _type = text._type;
-
-    text._ids.clear();
-    return *this;
-}
-
-Texture::Texture(Texture &&text)
-        : _type(text._type),
-          _ids(std::move(text._ids)) {
-    text._ids.clear();
-}
-
 unsigned int Texture::generate_texture() {
     GLuint texture;
     glGenTextures(1, &texture);      endora_error("Texture generation");

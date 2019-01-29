@@ -114,7 +114,7 @@ void ShaderProgram::link() {
     use(_prog_id);
 }
 
-GLuint ShaderProgram::getProgId() const {
+GLuint ShaderProgram::id() const {
     return _prog_id;
 }
 

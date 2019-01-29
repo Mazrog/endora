@@ -27,11 +27,10 @@ public:
     void bind();
     void clean();
 
-    void emplace_vbo(GLenum target = GL_ARRAY_BUFFER);
+    Vbo & emplace_vbo(GLenum target = GL_ARRAY_BUFFER);
 
     template < class T >
     void set_data(size_t size, T *data) {
-        bind();
         if( size > 0 ) {
             _vbos.back().setBufferData(size, data);
         }
@@ -42,11 +41,9 @@ public:
         glVertexAttribPointer(index, coordinateSize, GL_FLOAT, GL_FALSE, stride, pointer);    endora_error("VAO vertex pointer");
     }
 
-    /* Getters */
-    GLuint getId() const { return _id; }
 
-    std::vector<Vbo> & vbos() { return _vbos; }
-    Vbo & vbo() { return _vbos.back(); }
+    operator GLuint() const { return _id; }
+    Vbo & operator[] (unsigned index) { return _vbos[index]; }
 
 private:
     GLuint                  _id;

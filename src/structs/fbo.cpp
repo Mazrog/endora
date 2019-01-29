@@ -5,6 +5,7 @@
 #include <endora/utils.hpp>
 #include <endora/structs/fbo.hpp>
 
+/* static */
 void Fbo::default_fbo() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);   endora_error("Binding default framebuffer");
 }
@@ -60,17 +61,14 @@ void Fbo::bind_texture_slot(unsigned target, unsigned int slot) const {
     glBindTexture(GL_TEXTURE_2D, _attachments.at(slot));    endora_error("Binding attachment texture");
 }
 
-Fbo::Fbo(Fbo &&other) : _id(other._id), _attachments(std::move(other._attachments)) {
+Fbo::Fbo(Fbo && other) : _id(other._id), _attachments(std::move(other._attachments)) {
     other._id = 0;
-    other._attachments.clear();
 }
 
-Fbo& Fbo::operator=(Fbo &&other) {
+Fbo& Fbo::operator=(Fbo && other) {
     _id = other._id;
     other._id = 0;
-
     _attachments = std::move(other._attachments);
-    other._attachments.clear();
 
     return *this;
 }

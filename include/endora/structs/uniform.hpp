@@ -75,8 +75,8 @@ struct Uniform {
     Uniform(Uniform const&) = delete;
     Uniform& operator=(Uniform const&) = delete;
 
-    Uniform(Uniform && unif);
-    Uniform& operator=(Uniform && unif);
+    Uniform(Uniform && unif) = default;
+    Uniform& operator=(Uniform && unif) = default;
     /* ------------ */
 
     template < typename T >
