@@ -43,9 +43,9 @@ template < typename T >
 constexpr size_t padding = 0;
 
 template <> constexpr size_t padding<float> = 4;
-template <> constexpr size_t padding<glm::vec2> = 8;
-template <> constexpr size_t padding<glm::vec3> = 16;
-template <> constexpr size_t padding<glm::mat4> = 16;
+template <> constexpr size_t padding<vec2> = 8;
+template <> constexpr size_t padding<vec3> = 16;
+template <> constexpr size_t padding<mat4> = 16;
 
 using Pair = std::pair<size_t, size_t>;
 
@@ -76,16 +76,16 @@ struct UniformBlock {
         size_t offset = 0;
 
         for (size_t i = 0; i < pack_size; ++i) {
-            Pair const& type_info = helper<typename T::types>::value[i]; // first -> sizeof / second -> alignment
-            const size_t ind = std::log2(type_info.second);
+            auto [ size, alignment ] = helper<typename T::types>::value[i]; // first -> sizeof / second -> alignment
+            const size_t ind = std::log2(alignment);
 
-            if (block.size & (type_info.second - 1)) {
+            if (block.size & (alignment - 1)) {
                 offset = ((block.size >> ind) + 1) << ind;
-                block.fields_info[i] = { type_info.first, offset };
-                block.size = offset + type_info.first;
+                block.fields_info[i] = { size, offset };
+                block.size = offset + size;
             } else {
-                block.fields_info[i] = { type_info.first, block.size };
-                block.size += type_info.first;
+                block.fields_info[i] = { size, block.size };
+                block.size += size;
                 offset = block.size;
             }
         }
