@@ -29,7 +29,7 @@ public:
 
     template < typename ... Shaders >
     explicit ShaderProgram(Shaders && ... shaders) {
-        static_assert( (std::is_same_v<Shader, Shaders> && ...) , "All arguments must be of \"Shader\" type.");
+        static_assert( (std::is_same_v<Shader, std::remove_reference_t<Shaders>> && ...) , "All arguments must be of \"Shader\" type.");
 
         /* Program creation */
         _prog_id = glCreateProgram(); endora_error("create prog");

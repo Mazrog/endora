@@ -10,7 +10,8 @@ static char * filetobuf(const char *file) {
     char * buf;
 
     if(!(fptr = fopen(file, "rb"))){
-        throw std::runtime_error("Shader source file not found !");
+        std::cerr << "Shader source file not found !\n";
+        std::exit(1);
     }
     fseek(fptr, 0, SEEK_END);
     length = ftell(fptr);

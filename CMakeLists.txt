@@ -19,6 +19,7 @@ add_library(
 )
 
 target_link_libraries( ${PROJECT_NAME}
+        PRIVATE
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
 )
