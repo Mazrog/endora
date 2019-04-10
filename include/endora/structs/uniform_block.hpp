@@ -20,8 +20,10 @@ namespace {
 
 #endif // ENDORA_CUSTOM_TYPES
 
-template < typename Enum >
-constexpr auto enumvalue(Enum value) { return static_cast<std::underlying_type_t<Enum>>(value); }
+namespace utils {
+    template<typename Enum>
+    constexpr inline auto enumvalue(Enum value) { return static_cast<std::underlying_type_t<Enum>>(value); }
+}
 
 template < typename ... Types >
 struct types_wrapper {};
@@ -64,10 +66,10 @@ template < typename ... Types > struct helper<types_wrapper<Types...>> {
 
 template < typename T >
 struct UniformBlock {
-    unsigned id;
+    unsigned id, binding;
     T block;
 
-    UniformBlock() {
+    UniformBlock(unsigned binding) : binding(binding) {
         glGenBuffers(1, &id); endora_error("gen unif buffer");
         glBindBuffer(GL_UNIFORM_BUFFER, id); endora_error("bind ubo");
 
@@ -92,7 +94,7 @@ struct UniformBlock {
 
         glBufferData(GL_UNIFORM_BUFFER, block.size, nullptr, GL_STATIC_DRAW); endora_error("buffer data");
 
-        glBindBufferBase(GL_UNIFORM_BUFFER, 0, id);    endora_error("bind ubo binding point 0");
+        glBindBufferBase(GL_UNIFORM_BUFFER, binding, id);    endora_error("bind ubo binding point 0");
     }
 
     ~UniformBlock() {
@@ -101,8 +103,8 @@ struct UniformBlock {
 
     template < typename U >
     void set(typename T::fields field, U && value) {
-        Pair & pair = block.fields_info[enumvalue(field)];
-        glBindBuffer(GL_UNIFORM_BUFFER, id); endora_error("bind ubo");
+        Pair & pair = block.fields_info[utils::enumvalue(field)];
+        glBindBufferBase(GL_UNIFORM_BUFFER, binding, id); endora_error("bind ubo");
         glBufferSubData(GL_UNIFORM_BUFFER, pair.second, pair.first, value);
     }
 };
@@ -113,7 +115,7 @@ struct block_name { \
     using types = type_block; \
     enum class fields { __VA_ARGS__, field_count }; \
     \
-    std::array<std::pair<size_t, size_t>, enumvalue(fields::field_count)> fields_info; \
+    std::array<std::pair<size_t, size_t>, utils::enumvalue(fields::field_count)> fields_info; \
     size_t size = 0; \
 }; \
 }
