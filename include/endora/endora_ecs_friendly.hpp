@@ -202,7 +202,25 @@ void send_uniform(uniform_t uniform, glm::vec3 value) { glUniform3fv(uniform, 3,
 void send_uniform(uniform_t uniform, glm::mat4 value) { glUniformMatrix4fv(uniform, 1, GL_FALSE, glm::value_ptr(value)); endora_error("sending uniform mat4 value"); }
 
 // texture
+texture_t create_texture() {
+    texture_t texture;
+    glGenTextures(1, &texture); endora_error("creating texture");
+    return texture;
+}
 
+void destroy_texture(texture_t texture) { glDeleteTextures(1, &texture); endora_error("destroying texture"); }
+
+void bind_texture(texture_t texture, type_t target) { glBindTexture(target, texture); endora_error("bind texture"); }
+
+void load_2D_surface(type_t target, unsigned width, unsigned height, void * pixels, type_t internal_format, type_t format, type_t type) {
+    glTexImage2D(target, 0, internal_format, width, height, 0, format, type, pixels);
+    endora_error("Setting texture surface");
+}
+
+void bind_texture_slot(texture_t texture, type_t target, int slot) {
+    glActiveTexture(GL_TEXTURE0 + slot); endora_error("activating texture slot ", slot);
+    bind_texture(texture, target);
+}
 
 }
 
