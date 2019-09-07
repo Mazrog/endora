@@ -102,8 +102,8 @@ struct UniformBlock {
     }
 
     template < typename U >
-    void set(typename T::fields field, U && value) {
-        Pair & pair = block.fields_info[utils::enumvalue(field)];
+    void set(typename T::fields field, U && value) const {
+        Pair const& pair = block.fields_info[utils::enumvalue(field)];
         glBindBufferBase(GL_UNIFORM_BUFFER, binding, id); endora_error("bind ubo");
         glBufferSubData(GL_UNIFORM_BUFFER, pair.second, pair.first, value);
     }

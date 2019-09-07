@@ -11,17 +11,15 @@ file(GLOB HPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/endora/*.hpp in
 file(GLOB CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp src/*/*.cpp)
 
 
-add_library(
-        ${PROJECT_NAME}
-        SHARED
+add_library( ${PROJECT_NAME} SHARED
         ${CPP_FILES}
         ${HPP_FILES}
 )
 
 target_link_libraries( ${PROJECT_NAME}
         PRIVATE
-        ${OPENGL_LIBRARIES}
-        ${GLEW_LIBRARIES}
+        OpenGL::OpenGL
+        GLEW::GLEW
 )
 
 target_include_directories( ${PROJECT_NAME}

@@ -2,7 +2,6 @@
 // Created by mazrog on 17/04/18.
 //
 
-#include <GL/glew.h>
 #include <endora/texture.hpp>
 #include <endora/utils.hpp>
 
