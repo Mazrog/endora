@@ -2,8 +2,8 @@
 // Created by Maxime.Cabanal-Duvil on 9/6/2019.
 //
 
-#ifndef FRESHWIND_ENDORA_HPP
-#define FRESHWIND_ENDORA_HPP
+#ifndef ENDORA_SINGLE_HEADER_HPP
+#define ENDORA_SINGLE_HEADER_HPP
 
 #include <cstdio>
 #include <iostream>
@@ -11,23 +11,25 @@
 #include <glm/fwd.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#ifndef endora_error
 #define endora_error(message, ...) \
-    endora::get_error(__FILE__, __LINE__, message, ##__VA_ARGS__)
+    ::get_error(__FILE__, __LINE__, message, ##__VA_ARGS__)
 
-
-namespace endora {
+namespace {
     template < typename ... Args >
     void get_error(const char * file, int line, const char * message, Args &&... args) {
         GLenum err;
         if((err = glGetError() ) != GLEW_OK){
-            std::cerr << "ENDORA OPENGL ERROR -------- " << message << "\nCalled from " << file << " at line " << line << '\n';
-            std::cerr << "Error (" << err << ") : " << glewGetErrorString(err) << " -- " << gluErrorString(err) << '\n';
+            std::cerr << "ENDORA OPENGL ERROR -------- " << message << "\nCalled from " << file << " at line " << line << '\n'
+                << "Error (" << err << ") : " << glewGetErrorString(err) << " -- " << gluErrorString(err) << '\n';
             if constexpr (sizeof...(args)) {
-                ((std::cerr << args << " "), ...) << '\n' << std::endl;
+                ((std::cerr << args << " "), ...) << std::endl;
             }
         }
     }
 }
+
+#endif
 
 // Implementation of basic opengl structs
 
@@ -42,7 +44,8 @@ using type_t = GLenum;
 using texture_t = GLuint;
 
 /* Utils */
-static GLchar * filetobuf(const char *file) {
+inline
+GLchar * filetobuf(const char *file) {
     FILE * fptr;
     long length;
     GLchar * buf;
@@ -143,6 +146,12 @@ inline void destroy_program(program_t program) { glDeleteProgram(program); endor
 
 inline void use_program(program_t program) { glUseProgram(program); endora_error("using program"); }
 
+inline void check_use_program(program_t program) {
+    static program_t s_current_program = -1;
+    if (program != s_current_program) {
+        use_program(program);
+    }
+}
 
 // vbo part
 inline buffer_t create_buffer() {
@@ -151,9 +160,20 @@ inline buffer_t create_buffer() {
     return buffer;
 }
 
+inline void create_buffers(buffer_t * buffers, std::size_t n) {
+    glGenBuffers(n, buffers); endora_error("creating buffers");
+}
+
 inline void destroy_buffer(buffer_t buffer) { glDeleteBuffers(1, &buffer); endora_error("destroying buffer"); }
 
 inline void bind_buffer(buffer_t buffer, type_t type) { glBindBuffer(type, buffer); endora_error("bind buffer"); }
+
+inline void check_bind_buffer(buffer_t buffer, type_t type) {
+    static buffer_t s_current_buffer = -1;
+    if (buffer != s_current_buffer) {
+        bind_buffer(buffer, type);
+    }
+}
 
 template < typename T >
 void set_buffer_data(type_t type, std::size_t size, T const * data, type_t usage) {
@@ -186,6 +206,13 @@ inline vertex_array_t create_vertexarray() {
 inline void destroy_vertex_array(vertex_array_t vertex_array) { glDeleteVertexArrays(1, &vertex_array); endora_error("destroying vertex array"); }
 
 inline void bind_vertex_array(vertex_array_t vertex_array) { glBindVertexArray(vertex_array); endora_error("binding vertex array"); }
+
+inline void check_bind_vertex_array(vertex_array_t vertex_array) {
+    static vertex_array_t s_current_vertexarray = -1;
+    if (vertex_array != s_current_vertexarray) {
+        bind_vertex_array(vertex_array);
+    }
+}
 
 // uniform
 
