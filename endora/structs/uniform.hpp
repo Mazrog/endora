@@ -5,8 +5,8 @@
 #ifndef ENDORA_UNIFORM_HPP
 #define ENDORA_UNIFORM_HPP
 
-#include <endora/utils.hpp>
-#include <endora/program.hpp>
+#include "../utils.hpp"
+#include "../program.hpp"
 
 #include <string>
 

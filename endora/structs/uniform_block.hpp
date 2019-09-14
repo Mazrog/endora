@@ -7,15 +7,15 @@
 
 #include <array>
 #include <type_traits>
-#include <endora/utils.hpp>
+#include "../utils.hpp"
 
 #ifndef ENDORA_CUSTOM_TYPES
 #include <glm/glm.hpp>
 
 namespace {
-    using vec2 = glm::vec2;
-    using vec3 = glm::vec3;
-    using mat4 = glm::mat4;
+    using glm::vec2;
+    using glm::vec3;
+    using glm::mat4;
 }
 
 #endif // ENDORA_CUSTOM_TYPES
@@ -45,9 +45,10 @@ template < typename T >
 constexpr size_t padding = 0;
 
 template <> constexpr size_t padding<float> = 4;
-template <> constexpr size_t padding<vec2> = 8;
-template <> constexpr size_t padding<vec3> = 16;
-template <> constexpr size_t padding<mat4> = 16;
+template <> constexpr size_t padding<int> = 4;
+template <> constexpr size_t padding<::vec2> = 8;
+template <> constexpr size_t padding<::vec3> = 16;
+template <> constexpr size_t padding<::mat4> = 16;
 
 using Pair = std::pair<size_t, size_t>;
 
