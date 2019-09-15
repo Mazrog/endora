@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-project( endora )
+project(endora)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -21,7 +21,9 @@ target_link_libraries( ${PROJECT_NAME}
 
 target_compile_options ( ${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic )
 
-file(GLOB public_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} endora/*.hpp endora/*/*.hpp single-header/endora.hpp)
+target_include_directories( ${PROJECT_NAME} SYSTEM BEFORE PRIVATE include )
+
+file(GLOB public_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/endora/*.hpp include/endora/*/*.hpp)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
 
 # Make install
