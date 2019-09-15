@@ -23,13 +23,13 @@ target_compile_options ( ${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic )
 
 target_include_directories( ${PROJECT_NAME} SYSTEM BEFORE PRIVATE include )
 
-file(GLOB public_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/endora/*.hpp include/endora/*/*.hpp)
+file(GLOB public_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include include/endora/*.hpp include/endora/*/*.hpp)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
 
 # Make install
 install(
         TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION /usr/local/lib/
-        PUBLIC_HEADER DESTINATION /usr/local/include/endora
+        PUBLIC_HEADER DESTINATION /usr/local/include/
 )
 

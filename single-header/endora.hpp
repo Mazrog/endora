@@ -345,7 +345,7 @@ struct UniformBlock {
         glGenBuffers(1, &id); endora_error("gen unif buffer");
         glBindBuffer(GL_UNIFORM_BUFFER, id); endora_error("bind ubo");
 
-        constexpr std::size_t pack_size = utils::packsize_v<typename T::types>();
+        constexpr std::size_t pack_size = utils::packsize_v<typename T::types>;
 
         std::size_t offset = 0;
 
