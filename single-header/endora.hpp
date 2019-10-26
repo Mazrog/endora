@@ -384,7 +384,7 @@ struct block_name { \
     using types = type_block; \
     enum class fields { __VA_ARGS__, field_count }; \
     \
-    std::array<std::pair<size_t, size_t>, utils::enumvalue(fields::field_count)> fields_info; \
+    std::array<std::pair<size_t, size_t>, endora::utils::enumvalue(fields::field_count)> fields_info; \
     size_t size = 0; \
 }; \
 }
